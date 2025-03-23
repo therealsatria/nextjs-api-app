@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { pool } from '@/infrastructure/database/db-config';
+import { pool, checkConnection } from '@/infrastructure/database/db-config';
 import { ResponseHandler } from '@/utils/response-handler';
 
 export async function GET(request: NextRequest) {
@@ -7,33 +7,38 @@ export async function GET(request: NextRequest) {
     // Record start time
     const startTime = performance.now();
 
-    // Test the database connection with a simple query
-    const result = await pool.query('SELECT NOW() as current_time');
+    // Test the database connection
+    const isConnected = await checkConnection();
+    const result = isConnected ? await pool.query('SELECT NOW() as current_time') : null;
 
     // Calculate response time in milliseconds with 2 decimal places
     const responseTimeMs = Number((performance.now() - startTime).toFixed(2));
 
     // Gather connection details and status
     const connectionInfo = {
-      status: 'Connected',
+      status: isConnected ? 'Connected' : 'Disconnected',
       host: process.env.DB_HOST || 'Not specified',
       user: process.env.DB_USER || 'Not specified',
       database: process.env.DB_NAME || 'Not specified',
       port: process.env.DB_PORT || 'Not specified',
-      currentTime: result.rows[0].current_time.toISOString(),
-      responseTimeMs, // Response time in milliseconds with 2 decimal places
+      currentTime: result ? result.rows[0].current_time.toISOString() : null,
+      responseTimeMs,
     };
 
-    return ResponseHandler.success(connectionInfo, 'Database connection test successful');
+    if (isConnected) {
+      return ResponseHandler.success(connectionInfo, 'Database connection test successful');
+    } else {
+      return ResponseHandler.success(connectionInfo, 'Database is disconnected, but app is running');
+    }
   } catch (error) {
-    // If the connection fails, return error details with a zero response time
+    // Handle unexpected errors during the test
     const connectionInfo = {
       status: 'Failed',
       host: process.env.DB_HOST || 'Not specified',
       user: process.env.DB_USER || 'Not specified',
       database: process.env.DB_NAME || 'Not specified',
       port: process.env.DB_PORT || 'Not specified',
-      responseTimeMs: 0.00, // Fixed to 2 decimal places
+      responseTimeMs: 0.00,
       error: error instanceof Error ? error.message : 'Unknown error',
     };
 
