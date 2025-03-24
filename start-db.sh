@@ -77,4 +77,13 @@ else
   exit 1
 fi
 
+# Add .env file with PostgreSQL credentials matching the Docker container
+cat <<EOL > .env
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=product_db
+DB_PASSWORD=password123
+DB_PORT=5432
+EOL
+
 echo "Database setup complete! You can now start your app with 'npm run dev'."
