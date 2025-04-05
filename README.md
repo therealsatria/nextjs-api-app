@@ -1,237 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# API Spare Part Mobil Listrik
 
-## Dokumentasi API Manajemen Produk dan Inventori
+Dokumentasi API untuk aplikasi manajemen spare part mobil listrik.
 
-Aplikasi ini adalah REST API berbasis Next.js untuk manajemen produk dan inventori dengan dukungan database PostgreSQL yang dikontrol melalui Docker.
+## Mengimpor Collection ke Insomnia
 
-### Prasyarat
+File [insomnia-api-collection.json](./insomnia-api-collection.json) telah dibuat untuk memudahkan pengujian API. Berikut langkah-langkah untuk mengimpornya ke Insomnia:
 
-- Node.js (minimal versi 18.x)
-- Docker dan Docker Compose
-- npm, yarn, pnpm, atau bun
+1. Pastikan Anda sudah menginstal [Insomnia](https://insomnia.rest/download)
+2. Buka aplikasi Insomnia
+3. Klik menu Application (ikon roda gigi)
+4. Pilih **Preferences**
+5. Pilih tab **Data**
+6. Klik **Import Data** > **From File**
+7. Pilih file **insomnia-api-collection.json** dari proyek ini
+8. Klik **Import**
 
-### Menjalankan Aplikasi
+Setelah diimpor, Anda akan memiliki collection lengkap dengan folder-folder yang terorganisir:
+- **Products**: Endpoint untuk manajemen produk spare part
+- **Inventory**: Endpoint untuk manajemen stok produk
+- **Database**: Endpoint untuk memeriksa status koneksi database
 
-#### Menyiapkan Database
+## Mengatur Environment
 
-Aplikasi ini menggunakan PostgreSQL yang berjalan di container Docker. Gunakan script berikut untuk mengatur dan mengelola database:
+Collection ini dilengkapi dengan dua environment:
+- **Development**: Menggunakan base URL http://localhost:3000
+- **Production**: Menggunakan base URL https://api-spare-parts.example.com (ubah sesuai kebutuhan)
 
-1. **Memulai Database**:
-   ```bash
-   ./start-db.sh
-   ```
-   Script ini akan:
-   - Meluncurkan container PostgreSQL
-   - Membuat tabel `products` dan `inventory`
-   - Mengatur file `.env` dengan kredensial database yang sesuai
-   - Memverifikasi bahwa semua tabel telah dibuat dengan benar
+Untuk mengubah environment yang aktif:
+1. Klik dropdown environment di pojok kanan atas Insomnia
+2. Pilih environment yang ingin digunakan (Development atau Production)
 
-2. **Menghentikan Database**:
-   ```bash
-   ./stop-db.sh
-   ```
-   Script ini akan:
-   - Menghentikan container PostgreSQL
-   - Menghapus volume database
+## Variabel Environment
 
-#### Menjalankan Server Pengembangan
+Collection ini menggunakan variabel berikut:
+- `base_url`: URL dasar API
+- `product_id`: ID produk untuk testing
+- `inventory_id`: ID inventori untuk testing
 
-Setelah database berjalan, jalankan server pengembangan:
+Anda perlu memperbarui nilai `product_id` dan `inventory_id` setelah membuat produk dan inventori baru melalui API.
 
-```bash
-npm run dev
-# atau
-yarn dev
-# atau
-pnpm dev
-# atau
-bun dev
-```
+## Endpoint yang Tersedia
 
-Server akan berjalan di [http://localhost:3000](http://localhost:3000).
+### Products
+- `GET /api/products`: Mendapatkan semua produk
+- `POST /api/products`: Membuat produk baru
+- `GET /api/products/:id`: Mendapatkan detail produk berdasarkan ID
+- `PUT /api/products/:id`: Memperbarui produk berdasarkan ID
+- `PATCH /api/products/:id`: Memperbarui inventori produk berdasarkan ID
+- `DELETE /api/products/:id`: Menghapus produk berdasarkan ID
+- `POST /api/products/bulk`: Membuat beberapa produk sekaligus
+- `DELETE /api/products/bulk`: Menghapus beberapa produk sekaligus
 
-### Endpoints API
+### Inventory
+- `GET /api/inventory`: Mendapatkan semua inventori
+- `POST /api/inventory`: Membuat inventori baru
+- `GET /api/inventory/:id`: Mendapatkan detail inventori berdasarkan ID
+- `PUT /api/inventory/:id`: Memperbarui inventori berdasarkan ID
+- `DELETE /api/inventory/:id`: Menghapus inventori berdasarkan ID
 
-#### Pengujian Database
+### Database
+- `GET /api/db-test`: Memeriksa dan menampilkan status koneksi database
 
-- **GET /api/db-test**
-  - Deskripsi: Memeriksa koneksi database dan menampilkan informasi koneksi
-  - Respons sukses: `200 OK` dengan detail koneksi database
+## Alur Pengujian yang Disarankan
 
-#### Produk
+1. Periksa koneksi database dengan endpoint `GET /api/db-test`
+2. Buat produk baru dengan endpoint `POST /api/products`
+3. Catat ID produk yang baru dibuat dan perbarui variabel `product_id` di environment
+4. Dapatkan semua produk dengan endpoint `GET /api/products`
+5. Dapatkan detail produk dengan ID tertentu menggunakan `GET /api/products/:id`
+6. Perbarui produk dengan endpoint `PUT /api/products/:id`
+7. Perbarui stok produk dengan endpoint `PATCH /api/products/:id`
+8. Buat inventori baru dengan endpoint `POST /api/inventory` jika diperlukan
+9. Catat ID inventori dan perbarui variabel `inventory_id` di environment
+10. Lakukan operasi lain sesuai kebutuhan
 
-1. **GET /api/products**
-   - Deskripsi: Mendapatkan semua produk
-   - Respons sukses: `200 OK` dengan array produk
-
-2. **POST /api/products**
-   - Deskripsi: Membuat produk baru
-   - Body:
-     ```json
-     {
-       "name": "Nama Produk",
-       "description": "Deskripsi produk (opsional)",
-       "price": 99.99,
-       "initialQuantity": 10
-     }
-     ```
-   - Respons sukses: `201 Created` dengan detail produk yang dibuat
-
-3. **GET /api/products/:id**
-   - Deskripsi: Mendapatkan produk berdasarkan ID
-   - Parameter URL: `id` (UUID)
-   - Respons sukses: `200 OK` dengan detail produk
-   - Respons gagal: `404 Not Found` jika produk tidak ditemukan
-
-4. **PUT /api/products/:id**
-   - Deskripsi: Memperbarui produk berdasarkan ID
-   - Parameter URL: `id` (UUID)
-   - Body:
-     ```json
-     {
-       "name": "Nama Produk Baru",
-       "description": "Deskripsi produk baru",
-       "price": 149.99
-     }
-     ```
-   - Respons sukses: `200 OK` dengan detail produk yang diperbarui
-   - Respons gagal: `404 Not Found` jika produk tidak ditemukan
-
-5. **PATCH /api/products/:id**
-   - Deskripsi: Memperbarui inventori produk berdasarkan ID
-   - Parameter URL: `id` (UUID)
-   - Body:
-     ```json
-     {
-       "quantity": 20
-     }
-     ```
-   - Respons sukses: `200 OK` dengan detail inventori yang diperbarui
-   - Respons gagal: `404 Not Found` jika produk tidak ditemukan
-
-6. **DELETE /api/products/:id**
-   - Deskripsi: Menghapus produk berdasarkan ID
-   - Parameter URL: `id` (UUID)
-   - Respons sukses: `204 No Content`
-   - Respons gagal: `404 Not Found` jika produk tidak ditemukan
-
-#### Operasi Massal Produk
-
-1. **POST /api/products/bulk**
-   - Deskripsi: Membuat beberapa produk sekaligus
-   - Body:
-     ```json
-     {
-       "products": [
-         {
-           "name": "Produk 1",
-           "description": "Deskripsi produk 1",
-           "price": 99.99,
-           "initialQuantity": 10
-         },
-         {
-           "name": "Produk 2",
-           "description": "Deskripsi produk 2",
-           "price": 149.99,
-           "initialQuantity": 20
-         }
-       ]
-     }
-     ```
-   - Respons sukses: `201 Created` dengan detail produk yang dibuat
-
-2. **DELETE /api/products/bulk**
-   - Deskripsi: Menghapus beberapa produk sekaligus
-   - Body:
-     ```json
-     {
-       "ids": ["id1", "id2", "id3"]
-     }
-     ```
-   - Respons sukses: `204 No Content`
-
-#### Inventori
-
-1. **GET /api/inventory**
-   - Deskripsi: Mendapatkan semua data inventori
-   - Respons sukses: `200 OK` dengan array data inventori
-
-2. **POST /api/inventory**
-   - Deskripsi: Membuat entri inventori baru
-   - Body:
-     ```json
-     {
-       "productId": "UUID produk",
-       "quantity": 10
-     }
-     ```
-   - Respons sukses: `201 Created` dengan detail inventori yang dibuat
-
-3. **GET /api/inventory/:id**
-   - Deskripsi: Mendapatkan inventori berdasarkan ID
-   - Parameter URL: `id` (UUID)
-   - Respons sukses: `200 OK` dengan detail inventori
-   - Respons gagal: `404 Not Found` jika inventori tidak ditemukan
-
-4. **PUT /api/inventory/:id**
-   - Deskripsi: Memperbarui inventori berdasarkan ID
-   - Parameter URL: `id` (UUID)
-   - Body:
-     ```json
-     {
-       "quantity": 25
-     }
-     ```
-   - Respons sukses: `200 OK` dengan detail inventori yang diperbarui
-   - Respons gagal: `404 Not Found` jika inventori tidak ditemukan
-
-5. **DELETE /api/inventory/:id**
-   - Deskripsi: Menghapus inventori berdasarkan ID
-   - Parameter URL: `id` (UUID)
-   - Respons sukses: `204 No Content`
-   - Respons gagal: `404 Not Found` jika inventori tidak ditemukan
-
-### Format Respons API
-
-Semua respons API mengikuti format standar berikut:
-
-#### Sukses
-```json
-{
-  "success": true,
-  "data": {...},
-  "message": "Pesan sukses (opsional)"
-}
-```
-
-#### Error
-```json
-{
-  "success": false,
-  "error": "Pesan error",
-  "details": {...} // Detail tambahan (opsional)
-}
-```
-
-### Struktur Database
-
-#### Tabel Products
-- `id` (UUID) - Primary Key
-- `name` (VARCHAR) - Nama produk
-- `description` (TEXT) - Deskripsi produk (opsional)
-- `price` (DECIMAL) - Harga produk
-- `created_at` (TIMESTAMP) - Waktu pembuatan
-
-#### Tabel Inventory
-- `id` (UUID) - Primary Key
-- `product_id` (UUID) - Foreign Key ke Products
-- `quantity` (INTEGER) - Jumlah stok
-- `updated_at` (TIMESTAMP) - Waktu pembaruan terakhir
-
-### Alur Pengembangan Umum
-
-1. Mulai PostgreSQL dengan `./start-db.sh`
-2. Jalankan server Next.js dengan `npm run dev`
-3. Gunakan API sesuai dengan dokumentasi di atas
-4. Setelah selesai, hentikan database dengan `./stop-db.sh`
+Untuk informasi lebih detail tentang format request dan response, silakan lihat dokumentasi API di halaman utama aplikasi.
 

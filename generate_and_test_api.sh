@@ -4,7 +4,7 @@
 API_URL="http://localhost:3000/api"
 PRODUCTS_ENDPOINT="${API_URL}/products"
 INVENTORY_ENDPOINT="${API_URL}/inventory"
-TOTAL_ITEMS=10
+TOTAL_ITEMS=2
 UUID_FILE=".next/uuid_data.txt"
 
 # Warna untuk output

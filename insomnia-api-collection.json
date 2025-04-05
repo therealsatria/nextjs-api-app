@@ -1,0 +1,414 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-09-25T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_root",
+      "parentId": "wrk_spare_parts_api",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}",
+      "name": "Base URL",
+      "description": "URL dasar API",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_spare_parts_api",
+      "parentId": null,
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "name": "API Spare Part Mobil Listrik",
+      "description": "Dokumentasi API untuk aplikasi manajemen spare part mobil listrik",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_dbtest",
+      "parentId": "fld_database",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/db-test",
+      "name": "Cek Koneksi Database",
+      "description": "Memeriksa dan menampilkan status koneksi database",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "fld_database",
+      "parentId": "wrk_spare_parts_api",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "name": "Database",
+      "description": "Endpoint terkait database",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_get_products",
+      "parentId": "fld_products",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/products",
+      "name": "Mendapatkan Semua Produk",
+      "description": "Mendapatkan daftar semua produk spare part",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "fld_products",
+      "parentId": "wrk_spare_parts_api",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "name": "Products",
+      "description": "Endpoint untuk manajemen produk spare part",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_create_product",
+      "parentId": "fld_products",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/products",
+      "name": "Buat Produk Baru",
+      "description": "Membuat produk spare part baru",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Electric Motor AC\",\n  \"description\": \"Motor AC 150kW untuk penggerak utama\",\n  \"price\": 6750000,\n  \"initialQuantity\": 8\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_product",
+      "parentId": "fld_products",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/products/{{ _.product_id }}",
+      "name": "Mendapatkan Produk berdasarkan ID",
+      "description": "Mendapatkan detail produk berdasarkan ID",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_product",
+      "parentId": "fld_products",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/products/{{ _.product_id }}",
+      "name": "Update Produk",
+      "description": "Memperbarui produk berdasarkan ID",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Battery Pack 75kWh - Premium Edition\",\n  \"description\": \"Baterai lithium-ion 75kWh untuk mobil listrik premium dengan garansi 36 bulan\",\n  \"price\": 8750000\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_product_inventory",
+      "parentId": "fld_products",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/products/{{ _.product_id }}",
+      "name": "Update Inventory Produk",
+      "description": "Memperbarui inventori produk berdasarkan ID",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"quantity\": 15\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_product",
+      "parentId": "fld_products",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/products/{{ _.product_id }}",
+      "name": "Hapus Produk",
+      "description": "Menghapus produk beserta inventory-nya berdasarkan ID",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_bulk_create_products",
+      "parentId": "fld_products",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/products/bulk",
+      "name": "Buat Banyak Produk Sekaligus",
+      "description": "Membuat beberapa produk sekaligus",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"products\": [\n    {\n      \"name\": \"Controller Unit\",\n      \"description\": \"Unit pengontrol sistem elektronik mobil listrik\",\n      \"price\": 3250000,\n      \"initialQuantity\": 15\n    },\n    {\n      \"name\": \"Power Inverter\",\n      \"description\": \"Pengubah arus DC ke AC untuk motor\",\n      \"price\": 2800000,\n      \"initialQuantity\": 20\n    }\n  ]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_bulk_delete_products",
+      "parentId": "fld_products",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/products/bulk",
+      "name": "Hapus Banyak Produk Sekaligus",
+      "description": "Menghapus beberapa produk sekaligus berdasarkan ID",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"ids\": [\"6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b\", \"4d8c178e-f33d-4d1b-a726-64ee1f1c1b82\"]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_inventories",
+      "parentId": "fld_inventory",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/inventory",
+      "name": "Mendapatkan Semua Inventori",
+      "description": "Mendapatkan daftar semua stok inventori",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "fld_inventory",
+      "parentId": "wrk_spare_parts_api",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "name": "Inventory",
+      "description": "Endpoint untuk manajemen stok produk",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_create_inventory",
+      "parentId": "fld_inventory",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/inventory",
+      "name": "Buat Inventori Baru",
+      "description": "Membuat stok inventori baru untuk produk",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"productId\": \"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\n  \"quantity\": 25\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_inventory",
+      "parentId": "fld_inventory",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/inventory/{{ _.inventory_id }}",
+      "name": "Mendapatkan Inventori berdasarkan ID",
+      "description": "Mendapatkan detail inventori berdasarkan ID",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_inventory",
+      "parentId": "fld_inventory",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/inventory/{{ _.inventory_id }}",
+      "name": "Update Inventori",
+      "description": "Memperbarui stok inventori berdasarkan ID",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"quantity\": 30\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_inventory",
+      "parentId": "fld_inventory",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "url": "{{ _.base_url }}/api/inventory/{{ _.inventory_id }}",
+      "name": "Hapus Inventori",
+      "description": "Menghapus inventori berdasarkan ID",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_type": "request"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_spare_parts_api",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "product_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "inventory_id": "b5f8c3e1-3b7c-4b42-a335-7f924e6a9214"
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "product_id", "inventory_id"]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1695512400000,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_development",
+      "parentId": "env_base",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "name": "Development",
+      "data": {
+        "base_url": "http://localhost:3000"
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url"]
+      },
+      "color": "#00ff00",
+      "isPrivate": false,
+      "metaSortKey": 1695512400000,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_production",
+      "parentId": "env_base",
+      "modified": 1695512400000,
+      "created": 1695512400000,
+      "name": "Production",
+      "data": {
+        "base_url": "https://api-spare-parts.example.com"
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url"]
+      },
+      "color": "#ff0000",
+      "isPrivate": false,
+      "metaSortKey": 1695512400000,
+      "_type": "environment"
+    }
+  ]
+} 

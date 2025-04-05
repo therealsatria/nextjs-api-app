@@ -12,8 +12,9 @@ const updateSchema = {
   quantity: { type: 'number', optional: true },
 };
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
   try {
+    const params = await context.params;
     const inventory = await inventoryService.getInventoryById(params.id);
     return ResponseHandler.success(inventory);
   } catch (error) {
@@ -21,11 +22,12 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: { id: string } }) {
   const validation = await validateBody(updateSchema)(request);
   if (validation) return validation;
 
   try {
+    const params = await context.params;
     const body = (request as any).validatedBody;
     const dto = new UpdateInventoryDto(body.quantity);
     const inventory = await inventoryService.updateInventory(params.id, dto);
@@ -35,8 +37,9 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
   try {
+    const params = await context.params;
     await inventoryService.deleteInventory(params.id);
     return ResponseHandler.noContent();
   } catch (error) {
