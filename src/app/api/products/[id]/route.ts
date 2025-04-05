@@ -1,66 +1,14 @@
 import { NextRequest } from 'next/server';
-import { ProductRepository } from '@/infrastructure/repositories/product.repository';
-import { ProductService } from '@/services/product.service';
-import { UpdateProductDto } from '@/domain/dtos/product.dto';
-import { UpdateInventoryDto } from '@/domain/dtos/inventory.dto';
-import { validateBody } from '@/middleware/validation';
-import { ResponseHandler } from '@/utils/response-handler';
+import * as ProductRouteHandler from '../../../../features/products/api/[id]/route';
 
-const productRepository = new ProductRepository();
-const productService = new ProductService(productRepository);
+export const GET = (request: NextRequest, params: { params: { id: string } }) => 
+  ProductRouteHandler.GET(request, params);
 
-const updateProductSchema = {
-  name: { type: 'string', optional: true },
-  description: { type: 'string', optional: true },
-  price: { type: 'number', optional: true },
-};
+export const PUT = (request: NextRequest, params: { params: { id: string } }) => 
+  ProductRouteHandler.PUT(request, params);
 
-const updateInventorySchema = {
-  quantity: { type: 'number' },
-};
+export const PATCH = (request: NextRequest, params: { params: { id: string } }) => 
+  ProductRouteHandler.PATCH(request, params);
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    const product = await productService.getProduct(params.id);
-    return ResponseHandler.success(product);
-  } catch (error) {
-    return ResponseHandler.error(error, undefined, 404);
-  }
-}
-
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-  const validation = await validateBody(updateProductSchema)(request);
-  if (validation) return validation;
-
-  try {
-    const body = (request as any).validatedBody;
-    const dto = new UpdateProductDto(body.name, body.description, body.price);
-    const product = await productService.updateProduct(params.id, dto);
-    return ResponseHandler.success(product, 'Product updated successfully');
-  } catch (error) {
-    return ResponseHandler.error(error);
-  }
-}
-
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  const validation = await validateBody(updateInventorySchema)(request);
-  if (validation) return validation;
-
-  try {
-    const body = (request as any).validatedBody;
-    const dto = new UpdateInventoryDto(body.quantity);
-    const inventory = await productService.updateInventory(params.id, dto);
-    return ResponseHandler.success(inventory, 'Inventory updated successfully');
-  } catch (error) {
-    return ResponseHandler.error(error);
-  }
-}
-
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    await productRepository.delete(params.id);
-    return ResponseHandler.noContent();
-  } catch (error) {
-    return ResponseHandler.error(error);
-  }
-}
+export const DELETE = (request: NextRequest, params: { params: { id: string } }) => 
+  ProductRouteHandler.DELETE(request, params);

@@ -1,7 +1,8 @@
-import { IProductRepository } from '@/types';
-import { CreateProductDto, UpdateProductDto } from '@/domain/dtos/product.dto';
-import { CreateInventoryDto, UpdateInventoryDto } from '@/domain/dtos/inventory.dto';
-import { Product, Inventory } from '@/domain/entities/product';
+import { IProductRepository } from '../domain/interfaces/product.repository.interface';
+import { CreateProductDto, UpdateProductDto } from '../domain/dtos/product.dto';
+import { UpdateInventoryDto } from '@/features/inventory/domain/dtos/inventory.dto';
+import { Product } from '../domain/entities/product';
+import { Inventory } from '@/features/inventory/domain/entities/inventory';
 
 export class ProductService {
   constructor(private productRepository: IProductRepository) {}
@@ -49,4 +50,4 @@ export class ProductService {
     if (ids.length === 0) throw new Error('No IDs provided for deletion');
     await this.productRepository.bulkDelete(ids);
   }
-}
+} 

@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import { pool } from '@/infrastructure/database/db-config';
-import { IProductRepository } from '@/types';
-import { Product, Inventory } from '@/domain/entities/product';
-import { CreateProductDto, UpdateProductDto } from '@/domain/dtos/product.dto';
-import { CreateInventoryDto, UpdateInventoryDto } from '@/domain/dtos/inventory.dto';
+import { pool } from '@/shared/infrastructure/database/db-config';
+import { IProductRepository } from '../domain/interfaces/product.repository.interface';
+import { Product } from '../domain/entities/product';
+import { Inventory } from '@/features/inventory/domain/entities/inventory';
+import { CreateProductDto, UpdateProductDto } from '../domain/dtos/product.dto';
+import { UpdateInventoryDto } from '@/features/inventory/domain/dtos/inventory.dto';
 
 export class ProductRepository implements IProductRepository {
   async create(dto: CreateProductDto): Promise<Product> {
@@ -257,10 +258,8 @@ export class ProductRepository implements IProductRepository {
     try {
       await client.query('BEGIN');
 
-      await client.query('DELETE FROM inventory WHERE product_id = ANY($1)', [ids]);
-      const result = await client.query('DELETE FROM products WHERE id = ANY($1)', [ids]);
-
-      if (result.rowCount === 0) throw new Error('No products found to delete');
+      await client.query('DELETE FROM inventory WHERE product_id = ANY($1::uuid[])', [ids]);
+      await client.query('DELETE FROM products WHERE id = ANY($1::uuid[])', [ids]);
 
       await client.query('COMMIT');
     } catch (error) {
@@ -270,4 +269,4 @@ export class ProductRepository implements IProductRepository {
       client.release();
     }
   }
-}
+} 
