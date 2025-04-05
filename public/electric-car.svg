@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f5f7fa" rx="15" ry="15" />
+  
+  <!-- Road -->
+  <rect x="0" y="450" width="800" height="150" fill="#374151" />
+  <rect x="100" y="525" width="100" height="15" fill="#d1d5db" />
+  <rect x="300" y="525" width="100" height="15" fill="#d1d5db" />
+  <rect x="500" y="525" width="100" height="15" fill="#d1d5db" />
+  <rect x="700" y="525" width="100" height="15" fill="#d1d5db" />
+  
+  <!-- Car Body -->
+  <path d="M650 380 H400 C350 380 300 400 280 400 H200 C150 400 150 380 150 380 V430 C150 430 150 450 180 450 H620 C650 450 650 430 650 430 V380Z" fill="#3b82f6" />
+  <path d="M600 350 C580 310 560 310 500 310 H300 C240 310 220 310 200 350 L180 380 H620 L600 350Z" fill="#3b82f6" />
+  
+  <!-- Windows -->
+  <path d="M590 350 C575 320 560 320 500 320 H320 C260 320 245 320 230 350 L220 370 H600 L590 350Z" fill="#93c5fd" />
+  <line x1="350" y1="350" x2="390" y2="350" stroke="#3b82f6" stroke-width="5" />
+  
+  <!-- Lights -->
+  <rect x="180" y="400" width="40" height="15" rx="5" fill="#fcd34d" />
+  <rect x="580" y="400" width="40" height="15" rx="5" fill="#ef4444" />
+  
+  <!-- Wheels -->
+  <circle cx="220" cy="450" r="40" fill="#1f2937" />
+  <circle cx="220" cy="450" r="25" fill="#374151" />
+  <circle cx="220" cy="450" r="15" fill="#4b5563" />
+  
+  <circle cx="580" cy="450" r="40" fill="#1f2937" />
+  <circle cx="580" cy="450" r="25" fill="#374151" />
+  <circle cx="580" cy="450" r="15" fill="#4b5563" />
+  
+  <!-- Charging Station -->
+  <rect x="80" y="300" width="50" height="150" rx="5" fill="#1f2937" />
+  <rect x="70" y="280" width="70" height="30" rx="5" fill="#1f2937" />
+  
+  <!-- Charging Cable -->
+  <path d="M150 370 C170 370 180 380 180 410" stroke="#10b981" stroke-width="8" stroke-linecap="round" />
+  
+  <!-- Electric Symbols -->
+  <path d="M105 320 L105 350 L85 350 L110 390 L110 360 L130 360 L105 320Z" fill="#10b981" />
+  
+  <!-- Battery Indicator -->
+  <rect x="390" y="360" width="50" height="15" rx="5" fill="#d1d5db" />
+  <rect x="390" y="360" width="40" height="15" rx="5" fill="#10b981" />
+</svg> 
