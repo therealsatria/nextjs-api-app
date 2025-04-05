@@ -63,7 +63,8 @@ export class ResponseHandler {
     return this.success(data, message, undefined, 201);
   }
 
-  static noContent(message: string = 'Resource deleted successfully'): NextResponse<ApiResponse<null>> {
-    return this.success(null, message, undefined, 204);
+  static noContent(message: string = 'Resource deleted successfully'): NextResponse {
+    // Status 204 tidak boleh mengirim body/content, sehingga kita tidak menggunakan NextResponse.json
+    return new NextResponse(null, { status: 204 });
   }
 } 

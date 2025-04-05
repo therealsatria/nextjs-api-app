@@ -167,11 +167,9 @@ const apiRoutes: Route[] = [
         method: "DELETE",
         path: "/api/products/:id",
         description: "Menghapus produk beserta inventory-nya berdasarkan ID",
-        responseExample: `{
-  "success": true,
-  "data": null,
-  "message": "Resource deleted successfully"
-}`
+        responseExample: `Status: 204 No Content
+
+(Tidak ada body response)`
       },
       {
         method: "POST",
@@ -243,11 +241,9 @@ const apiRoutes: Route[] = [
             { name: "ids", type: "array", description: "Array dari ID produk yang akan dihapus", required: true }
           ]
         },
-        responseExample: `{
-  "success": true,
-  "data": null,
-  "message": "Products deleted successfully"
-}`
+        responseExample: `Status: 204 No Content
+
+(Tidak ada body response)`
       }
     ]
   },
@@ -337,11 +333,9 @@ const apiRoutes: Route[] = [
         method: "DELETE",
         path: "/api/inventory/:id",
         description: "Menghapus inventori berdasarkan ID",
-        responseExample: `{
-  "success": true,
-  "data": null,
-  "message": "Resource deleted successfully"
-}`
+        responseExample: `Status: 204 No Content
+
+(Tidak ada body response)`
       }
     ]
   },
